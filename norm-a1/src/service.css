@@ -1,0 +1,37 @@
+.service-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: blanchedalmond;
+  color:rgb(15, 14, 13)
+}
+.h2{
+    align-items: center;
+    display: flex;
+    justify-content: center ;
+}
+.forms-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: blanchedalmond;
+  font-family: Arial, sans-serif;
+}
+.appointment-form{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 2px solid rgb(15, 14, 13)    ;
+  
+}
+.contact-page,
+  .location-page {
+  min-height: 100vh;
+  padding: 40px;
+  color: black;
+  background: rgb(246, 179, 179);
+  
+}

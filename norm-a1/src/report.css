@@ -1,0 +1,68 @@
+.container {
+  width: 100%;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.upload-box {
+  width: 100%;
+  border: 2px dashed #999;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.upload-box:hover {
+  background: #f0f0f0;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.error-box {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid red;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff5f5;
+}
+
+.result-box {
+  margin-top: 15px;
+}
+
+.success {
+  color: green;
+}
+
+.fail {
+  color: red;
+}
+
+.btn {
+  margin-top: 15px;
+  padding: 10px 15px;
+  cursor: pointer;
+}

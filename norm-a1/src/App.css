@@ -1,0 +1,35 @@
+.app-header {
+  height: 50px;
+  display: flex;
+  align-items: center;  
+  justify-content: space-between; 
+  padding: 0 15px;
+  background-color: rgb(254, 210, 210);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.logo-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+
+  border: 2px solid #d3bfbf;
+  padding: 5px 12px;
+  border-radius: 8px;
+
+  background-color: rgba(255, 255, 255, 0.4);
+
+ 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+  color: #333;
+
+  transition: 0.3s ease;
+}
+
+
+.title-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 78, 80, 0.4);
+}

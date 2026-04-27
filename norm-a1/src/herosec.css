@@ -1,0 +1,17 @@
+.herosec-page {
+  display: flex;
+  flex-direction: column;
+  gap:50px;
+  align-items: center;
+  justify-content: center ;
+  min-height: 100vh;
+  padding: 40px;
+  text-align: center;
+  background:  rgb(243, 231, 243)
+  
+}  
+
+.logo-image {
+  width: 300px;
+  height: 300px;
+}

@@ -1,0 +1,46 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.card-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.card {
+  display: inline-block;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 10px;
+  width: 220px;
+  height: auto;
+  min-height: unset;
+  max-height: fit-content;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  text-align: left;
+  vertical-align: top;
+}
+
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.card p {
+  margin: 2px 0;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.card p strong {
+  color: #000;
+}
+.ublist{
+    display: flex;
+    gap: 12px;
+    
+}

@@ -1,0 +1,28 @@
+
+
+.profile-form-wrapper .card {
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.profile-form-wrapper h5 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.profile-form-wrapper label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.profile-form-wrapper .form-control,
+.profile-form-wrapper .form-select {
+  border-radius: 6px;
+}
+.profile-form-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 20px 40px;
+}
