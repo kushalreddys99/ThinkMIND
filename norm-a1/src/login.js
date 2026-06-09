@@ -22,7 +22,7 @@ function Login({ onLogin }) {
     const email = e.target[0].value;
     const password = e.target[1].value;
 
-    const API = process.env.REACT_APP_API_URL;
+    const API = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
     try {
       await fetch(`${API}/api/get-csrf/`, { credentials: 'include' });

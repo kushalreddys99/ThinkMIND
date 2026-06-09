@@ -27,7 +27,7 @@ function Signin() {
     return;
   }
 
-  const API = process.env.REACT_APP_API_URL;
+  const API = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
   try {
     const res = await fetch(`${API}/api/signup/`, {
@@ -114,7 +114,7 @@ function Signin() {
             />
           </div>
 
-          <button type="submit" className="login-btn">
+          <button type="submit" className="login-boo">
             Sign Up
           </button>
         </form>

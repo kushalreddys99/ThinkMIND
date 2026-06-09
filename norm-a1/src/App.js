@@ -30,10 +30,18 @@ import "./App.css";
 import Fileview from "./fileview";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true";
+  });
 
   const handleLogin = () => {
+    localStorage.setItem("isLoggedIn", "true");
     setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
   };
 
   return (
@@ -52,12 +60,13 @@ function App() {
          
           <header className="app-header">
             <h1 className="logo-title">MIND Think</h1>
-            <Drop />
+            <Drop onLogout={handleLogout} />
           </header>
          
 
           <Routes>
-            <Route path="/Home" element={<Home />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/overview" element={<Overview />} />
             <Route path="/hero" element={<Herosec />} />
             <Route path="/announcement" element={<Announcement />} />
@@ -75,6 +84,7 @@ function App() {
             <Route path="/sidebar" element={<Sidebar />} />
             <Route path="/pdetails" element={<ProfileForm/>}/>
             <Route path="/unireg" element={<Unireg/>}/>
+            <Route path="*" element={<Navigate to="/home" replace />} />
             
           </Routes>
         </>

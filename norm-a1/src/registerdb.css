@@ -1,46 +1,96 @@
 .container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   text-align: center;
+  background-color: #f8f9fa; 
+  min-height: 100vh;
+}
+
+.container h2 {
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-weight: 600;
 }
 
 .card-container {
-  display: inline-flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
   justify-content: center;
-  gap: 16px;
+  align-items: stretch; 
 }
 
 .card {
-  display: inline-block;
-  background: #fff;
-  border-radius: 8px;
-  padding: 8px 10px;
-  width: 220px;
-  height: auto;
-  min-height: unset;
-  max-height: fit-content;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: left;
-  vertical-align: top;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eaeaea;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .card h3 {
-  margin: 0 0 4px;
-  font-size: 14px;
+  margin: 0 0 16px;
+  font-size: 20px;
+  color: #2c3e50;
+  border-bottom: 2px solid #f0f2f5;
+  padding-bottom: 12px;
 }
 
 .card p {
-  margin: 2px 0;
-  font-size: 12px;
-  line-height: 1.1;
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
 }
 
 .card p strong {
-  color: #000;
+  color: #222;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 60px; 
 }
-.ublist{
-    display: flex;
-    gap: 12px;
-    
+
+
+.ublist {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: auto; 
+  padding-top: 20px;
+}
+
+.ublist button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  background: #f1f3f5;
+  color: #495057;
+}
+
+.ublist button:first-child:hover {
+  background: #e7f5ff;
+  color: #228be6;
+}
+
+.ublist button:last-child:hover {
+  background: #ffe3e3;
+  color: #fa5252;
 }

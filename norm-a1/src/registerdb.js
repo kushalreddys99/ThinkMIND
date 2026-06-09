@@ -4,13 +4,12 @@ import "./registerdb.css"
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { SlClose } from "react-icons/sl";
-import { toast,ToastContainer } from "react-toastify";
-
-
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; 
 function StudentsList() {
   const [students, setStudents] = useState([]);
   const Navigate = useNavigate();
-  const mess=()=>toast("are you sure");
+
   useEffect(() => {
     const API = process.env.REACT_APP_API_URL;
 
@@ -20,6 +19,27 @@ function StudentsList() {
       })
       .catch(err => console.error("Error fetching data:", err));
   }, []);
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this student?")) {
+      return; 
+    }
+
+    const API = process.env.REACT_APP_API_URL;
+    
+    try {
+      await axios.delete(`${API}/api/students/${id}/`);
+      
+      
+      setStudents(students.filter(student => student.id !== id));
+      
+      
+      toast.success("Student deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      toast.error("Failed to delete student.");
+    }
+  };
 
   return (
     <div className="container">
@@ -38,16 +58,17 @@ function StudentsList() {
 
             <p><strong></strong> {student.university_name}</p>
             <div className="ublist">
-            <button onClick={()=>Navigate('/pdetails')}><FiArrowRight /></button> 
-            <button onClick={mess}> <SlClose /></button>
-            
+              <button onClick={() => Navigate('/pdetails')}><FiArrowRight /></button> 
+              
+              <button onClick={() => handleDelete(student.id)}> <SlClose /></button>
             </div>
-            <ToastContainer/>
           </div>
         ))}
       </div>
+    
+      <ToastContainer />
     </div>
   );
 }
 
-export default StudentsList;   
+export default StudentsList;

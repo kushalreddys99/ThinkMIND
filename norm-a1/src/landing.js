@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./home.css";
+import "./landing.css";
 import { TypeAnimation } from "react-type-animation";
 
 function Landing() {

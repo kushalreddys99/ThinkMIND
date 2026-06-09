@@ -56,7 +56,7 @@ const navItems = [
   }
 ];
 
-function Drop() {
+function Drop({ onLogout }) {
   const [hoverIndex, setHoverIndex] = useState(null);
   const navigate = useNavigate();
   const closeTimeout = useRef(null);
@@ -86,6 +86,12 @@ function Drop() {
           <button
             className={`nav-btn ${hoverIndex === index ? "active" : ""}`}
             onClick={() => {
+              if (item.label === "Logout") {
+                onLogout();
+                navigate("/login");
+                return;
+              }
+
               if (item.path) {
                 navigate(item.path);
               }
@@ -101,7 +107,18 @@ function Drop() {
             <ul className="dropdown-list">
               {item.links.map((link, i) => (
                 <li key={i}>
-                  <Link to={link.to}>{link.name}</Link>
+                  <Link
+                    to={link.to}
+                    onClick={(event) => {
+                      if (item.label === "Logout") {
+                        event.preventDefault();
+                        onLogout();
+                        navigate("/login");
+                      }
+                    }}
+                  >
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>

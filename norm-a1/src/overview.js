@@ -1,46 +1,270 @@
-import React from "react";
-import "./overview.css";
+import React, { useState } from "react";
+import "./herosec.css";
 
+const HeroSec = () => {
+  const [studentFile, setStudentFile] = useState(null);
+  const [referenceFile, setReferenceFile] = useState(null);
+  const [pdfData, setPdfData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-function Overview() {
+  // Updated to accept up to 5MB files
+  const MAX_SIZE_MB = 5;
+
+  const validatePDF = (selectedFile) => {
+    if (!selectedFile) return false;
+
+    if (selectedFile.type !== "application/pdf") {
+      alert("Please upload a valid PDF");
+      return false;
+    }
+
+    // Convert MB to Bytes for accurate comparison
+    const maxSizeInBytes = MAX_SIZE_MB * 1024 * 1024;
+
+    if (selectedFile.size > maxSizeInBytes) {
+      alert(`File size should not exceed ${MAX_SIZE_MB}MB`);
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleStudentFile = (e) => {
+    const f = e.target.files[0];
+    if (validatePDF(f)) setStudentFile(f);
+  };
+
+  const handleReferenceFile = (e) => {
+    const f = e.target.files[0];
+    if (validatePDF(f)) setReferenceFile(f);
+  };
+
+  const handleSubmit = async () => {
+    if (!studentFile) {
+      alert("Please upload student PDF");
+      return;
+    }
+
+    if (!referenceFile) {
+      alert("Please upload reference PDF");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", studentFile);
+    formData.append("reference_pdf", referenceFile);
+
+    setLoading(true);
+    setPdfData(null);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/reference-evaluation1/",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setPdfData(data);
+      } else {
+        alert(data.error || "Upload failed");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error uploading PDF");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Manual marks editing
+  const handleMarkChange = (index, value) => {
+    const updated = [...pdfData.results];
+
+    updated[index].marks_obtained = Math.min(
+      10,
+      Math.max(0, Number(value))
+    );
+
+    const newTotal = updated.reduce(
+      (sum, r) => sum + r.marks_obtained,
+      0
+    );
+
+    const newPct = (
+      (newTotal / (updated.length * 10)) *
+      100
+    ).toFixed(2);
+
+    setPdfData({
+      ...pdfData,
+      results: updated,
+      total_score: newTotal,
+      percentage: parseFloat(newPct),
+    });
+  };
+
+  const getGradeColor = (pct) => {
+    if (pct >= 75) return "grade-high";
+    if (pct >= 50) return "grade-mid";
+    return "grade-low";
+  };
+
   return (
-    <div className="overview-page">
-      <h1>Overview Page</h1>
-      <p>This is the overview page content.</p>
-      <table  className="overview-table" style={{ width: "100%", borderCollapse: "collapse" }}>
-      <thead>
-        <tr>
-          <th>no.</th>
-          <th>users</th>
-          <th>feedback</th>
-          <th>rating</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>abc</td>
-          <td>hi</td>
-          <td>5</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>sdfa</td>
-          <td>hi</td>
-          <td>4</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>xyz</td>
-          <td>hello</td>
-          <td>3</td>
-        </tr>
-      </tbody>
-    </table>
- 
+    <div className="herosec-container">
+
+      {/* Upload Card */}
+      <div className="upload-card">
+        <h1 className="main-title">
+          Reference PDF Evaluation System
+        </h1>
+
+        <div className="upload-section">
+
+          <div className="file-box">
+            <label>Student PDF</label>
+
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={handleStudentFile}
+            />
+
+            {studentFile && (
+              <span className="file-name">
+                ✓ {studentFile.name}
+              </span>
+            )}
+          </div>
+
+          <div className="file-box">
+            <label>Reference PDF</label>
+
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={handleReferenceFile}
+            />
+
+            {referenceFile && (
+              <span className="file-name">
+                ✓ {referenceFile.name}
+              </span>
+            )}
+          </div>
+
+        </div>
+
+        <button
+          className="submit-btn"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? (
+            <span className="spinner" />
+          ) : (
+            "Evaluate PDF"
+          )}
+        </button>
+      </div>
+
+      {/* Results */}
+      {pdfData && (
+        <div className="result-container">
+
+          <div className="summary-card">
+            <h2>Evaluation Summary</h2>
+
+            <div className="summary-grid">
+
+              <div
+                className={`summary-item ${getGradeColor(
+                  pdfData.percentage
+                )}`}
+              >
+                <h3>{pdfData.percentage}%</h3>
+                <p>Percentage</p>
+              </div>
+
+              <div className="summary-item">
+                <h3>
+                  {pdfData.total_score} / {pdfData.max_score}
+                </h3>
+                <p>Total Score</p>
+              </div>
+
+              <div className="summary-item">
+                <h3>{pdfData.total_questions}</h3>
+                <p>Questions</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="marks-card">
+            <h2>Question-wise Marks</h2>
+
+            <table className="marks-table">
+              <thead>
+                <tr>
+                  <th>Question No.</th>
+                  <th>Marks Obtained</th>
+                  <th>Out Of</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {pdfData.results?.map((item, index) => (
+                  <tr
+                    key={index}
+                    className={
+                      item.marks_obtained >= 7
+                        ? "row-high"
+                        : item.marks_obtained >= 4
+                        ? "row-mid"
+                        : "row-low"
+                    }
+                  >
+                    <td>Q{item.question_number}</td>
+
+                    <td>
+                      <strong>{item.marks_obtained}</strong>
+                    </td>
+
+                    <td>{item.marks_out_of}</td>
+
+                    <td>
+                      <input
+                        type="number"
+                        className="mark-input"
+                        value={item.marks_obtained}
+                        min="0"
+                        max="10"
+                        onChange={(e) =>
+                          handleMarkChange(
+                            index,
+                            e.target.value
+                          )
+                        }
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+      )}
+
     </div>
   );
-}
+};
 
-
-export default Overview;
+export default HeroSec;
